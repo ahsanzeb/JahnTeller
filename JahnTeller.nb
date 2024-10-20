@@ -1,0 +1,296 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.2' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     12312,        288]
+NotebookOptionsPosition[     11188,        264]
+NotebookOutlinePosition[     11609,        282]
+CellTagsIndexPosition[     11566,        279]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{":", "Context", ":", " ", "JahnTeller`"}], " ", "*)"}], "\n", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", "Author", ":", " ", 
+    RowBox[{"Ahsan", " ", "Zeb"}]}], " ", "*)"}], "\n", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", "Summary", ":", " ", 
+    RowBox[{
+     RowBox[{"Calculations", " ", "of", " ", "Jahn"}], "-", 
+     RowBox[{
+     "Teller", " ", "effect", " ", "in", " ", "ABO3", " ", 
+      "perovskites"}]}]}], " ", "*)"}], "\n", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{":", "Copyright", ":", " ", 
+     RowBox[{"Copyright", " ", 
+      RowBox[{"(", "c", ")"}], " ", "2023", " ", "Ahsan", " ", "Zeb"}]}], ",",
+     " ", 
+    RowBox[{
+    "distributed", " ", "under", " ", "the", " ", "XXXX", " ", "license"}]}], 
+   " ", "*)"}], "\n", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Package", " ", "Version"}], ":", " ", "1.0"}], " ", "*)"}], "\n", 
+  RowBox[{"(*", " ", 
+   RowBox[{":", 
+    RowBox[{"Mathematica", " ", "Version"}], ":", " ", 
+    RowBox[{"11.2", ".0", ".0"}]}], " ", "*)"}]}]], "Code",
+ CellChangeTimes->{{3.711630806946252*^9, 3.711630807279427*^9}, {
+  3.746859064532873*^9, 3.746859067046217*^9}, {3.905137312160646*^9, 
+  3.905137382771747*^9}},ExpressionUUID->"718afe06-7545-41b6-8d10-\
+bd43ad6357b0"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"If", "[", 
+   RowBox[{
+    RowBox[{"TrueQ", "[", 
+     RowBox[{"$VersionNumber", "<", "10"}], "]"}], ",", 
+    RowBox[{
+     RowBox[{
+     "Print", "[", 
+      "\"\<Sorry, JahnTeller only works with version 10+ of the Wolfram \
+Language.\>\"", "]"}], ";", 
+     RowBox[{"Abort", "[", "]"}]}]}], "]"}], ";"}]], "Code",
+ CellChangeTimes->{3.746859086632247*^9, 
+  3.905137303045846*^9},ExpressionUUID->"0933457f-71a3-4fbb-89fa-\
+ead46ab87922"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"BeginPackage", "[", 
+    RowBox[{"\"\<JahnTeller`\>\"", ",", " ", "\"\<Global`\>\""}], "]"}], 
+   ";"}], " "}], "\n", 
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{
+    "Global`", " ", "becuase", " ", "some", " ", "variables", " ", "like", 
+     " ", "dh"}], ",", " ", "Rl2", ",", " ", 
+    RowBox[{
+    "etc", "\n", " ", "that", " ", "are", " ", "not", " ", "defined", " ", 
+     "in", " ", "the", " ", "package", " ", "but", " ", "in", " ", "the", " ",
+      "user", " ", "files"}], ",", " ", "\n", " ", 
+    RowBox[{
+    "could", " ", "be", " ", "used", " ", "by", " ", "the", " ", 
+     "package"}]}], " ", "*)"}]}]}], "Code",
+ CellChangeTimes->{
+  3.746859078054949*^9, {3.905137290948847*^9, 3.9051372931107693`*^9}, {
+   3.905156553234734*^9, 
+   3.9051566352475243`*^9}},ExpressionUUID->"7bcf499a-90fc-4cd2-a2ab-\
+c65b34c14a0c"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"auxiliary", ":"}], " ", "*)"}], "\n", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"$JahnTellerVersion", "::", "usage"}], "=", 
+     "\"\<$JahnTellerVersion gives the version number of the JahnTeller \
+package.\>\""}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"$JahnTellerDebugQ", "::", "usage"}], "=", 
+     "\"\<Setting $JahnTellerDebugQ=True results in debugging messages being \
+printed during evaluations.\>\""}], ";"}]}]}]], "Code",
+ CellChangeTimes->{{3.7468590943412523`*^9, 3.746859108072159*^9}, {
+  3.7472729946915703`*^9, 3.747273000042321*^9}, {3.905145551731926*^9, 
+  3.9051455751958303`*^9}},ExpressionUUID->"614d9ff5-6f82-4ebf-9415-\
+6b236c112e18"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"getXYZCages", "::", "usage"}], "=", 
+    "\"\<getXYZCages[a,\[Alpha],\[Beta]]\>\""}], ";"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"getRlm", "::", "usage"}], "=", 
+   "\"\< {Rot3,Rl2,Rl4} = getRlm[\[Theta],\[Phi]]\>\""}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"getVmsIndividualQs", "::", "usage"}], "=", 
+  "\"\<{VtotaQ,VtotbQ}=getVmsIndividualQs[\[Alpha],\[Beta],r,\[Theta],\[Phi],{\
+x,y,z,u,v,w,\[Sigma],\[Mu],\[Tau]}];\>\""}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"getVmsIndividualQsSL", "::", "usage"}], "=", 
+   "\"\<{VtotaQ,VtotbQ}=getVmsIndividualQs[\[Alpha],\[Beta],r,\[Theta],\[Phi],\
+{x,y,z,u,v,w,\[Sigma],\[Mu],\[Tau]}];\>\""}], "\n", "\n", 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"getCoeff", "::", "usage"}], "=", 
+     "\"\<VlmA=getCoeff[VtotaQ];\>\""}], ";"}], "*)"}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"getHam", "::", "usage"}], "=", 
+  "\"\<{dh20A,dh40A}=getHam[VlmZeroA]//FullSimplify;\>\""}], "\n", 
+ RowBox[{
+  RowBox[{"egShiftSplitting", "::", "usage"}], "=", 
+  "\"\<et2gA=egShiftSplitting[VlmsRulesA];\>\""}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"gettheta0t2g", "::", "usage"}], "=", 
+   "\"\<gettheta0t2g[VlmsRulesA]\>\""}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"getHamFullABO", "::", "usage"}], "=", 
+  "\"\<dh=getHamFullABO[Rl2,VlmsRulesA,VlmsRulesB];\>\""}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"getEigensystem", "::", "usage"}], "=", 
+   "\"\<{evals,evecs}=getEigensystem[alpha,beta,qs];\n\
+EmitSound[Sound[SoundNote[]]]\>\""}], "\n"}], "\n", 
+ RowBox[{
+  RowBox[{"Vlm", "::", "usage"}], "=", 
+  "\"\<Vlm A and B cages \>\""}], "\n"}], "Code",
+ CellChangeTimes->{{3.711622725164941*^9, 3.711622799216568*^9}, {
+   3.711625994772591*^9, 3.7116260133934717`*^9}, 3.711630786830312*^9, {
+   3.711631338276513*^9, 3.71163146328096*^9}, {3.711632786476039*^9, 
+   3.711633121883718*^9}, {3.711633162106471*^9, 3.711633227071251*^9}, {
+   3.71165113677603*^9, 3.711651185888319*^9}, 3.71169032788619*^9, {
+   3.71169038694284*^9, 3.711690765524735*^9}, {3.7116908583394623`*^9, 
+   3.7116910330964537`*^9}, 3.711691078058187*^9, {3.711691138495349*^9, 
+   3.711691170011792*^9}, {3.7116912009333467`*^9, 3.711691269441463*^9}, {
+   3.711691340278881*^9, 3.711691662494329*^9}, 3.7116917081658287`*^9, {
+   3.711691749628067*^9, 3.711691789623354*^9}, {3.711692058035531*^9, 
+   3.711692068040399*^9}, {3.711692104615733*^9, 3.7116921064764557`*^9}, {
+   3.71169219901119*^9, 3.7116922302501173`*^9}, {3.711693892132461*^9, 
+   3.71169394887432*^9}, {3.711693992884709*^9, 3.711693998049271*^9}, {
+   3.711694095663227*^9, 3.711694102748043*^9}, {3.711694153439559*^9, 
+   3.7116942310605783`*^9}, {3.7116942633732023`*^9, 3.711694264355959*^9}, {
+   3.711694311532247*^9, 3.711694311819544*^9}, {3.711694344356789*^9, 
+   3.711694358337819*^9}, {3.711694390608624*^9, 3.7116944010045853`*^9}, {
+   3.711694435436043*^9, 3.711694464383436*^9}, {3.711694520001669*^9, 
+   3.7116945210730543`*^9}, 3.711694584351775*^9, {3.711694723309461*^9, 
+   3.7116947791051083`*^9}, {3.711694863093635*^9, 3.711694910514159*^9}, {
+   3.7116951388234053`*^9, 3.711695176102174*^9}, {3.711695305859222*^9, 
+   3.711695329168787*^9}, 3.711695574505213*^9, {3.711695803749279*^9, 
+   3.71169589584196*^9}, {3.71179401789294*^9, 3.7117940532623653`*^9}, {
+   3.7118721502418528`*^9, 3.711872213309946*^9}, {3.711952145611236*^9, 
+   3.711952205975099*^9}, {3.711952246776416*^9, 3.711952247894924*^9}, {
+   3.712028840159626*^9, 3.7120290361291103`*^9}, {3.712416026657886*^9, 
+   3.71241603576553*^9}, {3.746859143398028*^9, 3.746859161267036*^9}, {
+   3.746859194369617*^9, 3.7468592375539427`*^9}, {3.746861257668421*^9, 
+   3.746861269614887*^9}, {3.746861334991666*^9, 3.746861370058181*^9}, {
+   3.7468614724513607`*^9, 3.74686147296681*^9}, 3.7468622378804827`*^9, {
+   3.746936823762825*^9, 3.7469368339220047`*^9}, {3.747273002558058*^9, 
+   3.7472730203539963`*^9}, {3.748052522377038*^9, 3.7480525372539167`*^9}, {
+   3.748163749435935*^9, 3.748163764177431*^9}, {3.74833212261346*^9, 
+   3.748332197213036*^9}, {3.7483323193161707`*^9, 3.748332339249076*^9}, {
+   3.748333834144764*^9, 3.7483338346557207`*^9}, 3.748340760133457*^9, {
+   3.748354457460072*^9, 3.7483544869311733`*^9}, {3.74835555606711*^9, 
+   3.7483555816135683`*^9}, {3.748394800694179*^9, 3.748394817523877*^9}, 
+   3.750045245145835*^9, {3.750045278364902*^9, 3.750045295770693*^9}, {
+   3.7500453578184633`*^9, 3.750045536455871*^9}, {3.750047513276*^9, 
+   3.75004755158149*^9}, {3.7501585189546013`*^9, 3.750158561771131*^9}, {
+   3.774289542212798*^9, 3.7742896092103233`*^9}, {3.774341432240821*^9, 
+   3.7743415217784443`*^9}, {3.7744519842515497`*^9, 3.774452010179294*^9}, {
+   3.776258297948359*^9, 3.7762583652859287`*^9}, {3.776348651950437*^9, 
+   3.776348703928589*^9}, {3.787755286850646*^9, 3.787755358354508*^9}, {
+   3.905138778465185*^9, 3.905138834518564*^9}, {3.905139369470727*^9, 
+   3.905139421256248*^9}, {3.905139497450931*^9, 3.90513951375972*^9}, {
+   3.905139634528472*^9, 3.9051396519468927`*^9}, {3.905139713911848*^9, 
+   3.905139715158948*^9}, 3.905139754547258*^9, {3.905140373542357*^9, 
+   3.905140376858143*^9}, 3.905145529348624*^9, {3.905147976751315*^9, 
+   3.905148057230556*^9}, {3.905148119273912*^9, 3.905148144057425*^9}, {
+   3.905148330163094*^9, 3.905148339793995*^9}, {3.9051483894244347`*^9, 
+   3.9051484969152946`*^9}, {3.905151353908595*^9, 3.9051513593185368`*^9}, {
+   3.905151795286688*^9, 3.90515180622262*^9}, 3.905151933813911*^9, 
+   3.9051586382014427`*^9, {3.908766462924865*^9, 3.908766492325506*^9}, {
+   3.92833542848206*^9, 
+   3.92833543181807*^9}},ExpressionUUID->"cfdb483a-568f-4a02-96c9-\
+37709daf953d"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Begin", "[", "\"\<`Private`\>\"", "]"}], ";"}]], "Code",ExpressionU\
+UID->"22c39192-fa14-4f0b-8d6b-fc322fcb5276"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"$JahnTeller", "=", "1."}], ";"}], "*)"}], "\n", 
+  RowBox[{
+   RowBox[{"debug", ":=", 
+    RowBox[{"TrueQ", "[", "$JahnTellerDebugQ", "]"}]}], ";"}]}]], "Code",
+ CellChangeTimes->{{3.71179298492097*^9, 3.711792990646398*^9}, {
+   3.746859120057149*^9, 3.746859125667305*^9}, {3.90514559176406*^9, 
+   3.905145599397242*^9}, 
+   3.90514569703253*^9},ExpressionUUID->"d4e7aa88-2743-48ac-9570-\
+699e376f8685"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"get", " ", 
+    RowBox[{"all", " ", ".", "m"}], " ", "files", " ", "from", " ", 
+    "PackageFiles", " ", "directory"}], " ", "*)"}], "\n", 
+  RowBox[{
+   RowBox[{"Get", "/@", 
+    RowBox[{"FileNames", "[", 
+     RowBox[{"\"\<*.m\>\"", ",", 
+      RowBox[{"FileNameJoin", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"DirectoryName", "[", "$InputFileName", "]"}], ",", 
+         "\"\<PackageFiles\>\""}], "}"}], "]"}]}], "]"}]}], ";"}]}]], "Code",
+ CellChangeTimes->{{3.711661601845818*^9, 
+  3.711661663770471*^9}},ExpressionUUID->"7627473d-4b4e-496f-85fc-\
+b495e06aeced"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"End", "[", "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{"EndPackage", "[", "]"}], ";"}]}], "Code",ExpressionUUID->"5f5d33ad-\
+2874-4edb-a217-dc6396320c78"]
+},
+AutoGeneratedPackage->Automatic,
+WindowSize->{986, 775},
+WindowMargins->{{208, Automatic}, {Automatic, 0}},
+Magnification:>2. Inherited,
+FrontEndVersion->"11.2 for Mac OS X x86 (32-bit, 64-bit Kernel) (September \
+10, 2017)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 1297, 33, 294, "Code",ExpressionUUID->"718afe06-7545-41b6-8d10-bd43ad6357b0"],
+Cell[1858, 55, 476, 14, 103, "Code",ExpressionUUID->"0933457f-71a3-4fbb-89fa-ead46ab87922"],
+Cell[2337, 71, 895, 23, 218, "Code",ExpressionUUID->"7bcf499a-90fc-4cd2-a2ab-c65b34c14a0c"],
+Cell[3235, 96, 734, 18, 180, "Code",ExpressionUUID->"614d9ff5-6f82-4ebf-9415-6b236c112e18"],
+Cell[3972, 116, 5746, 101, 750, "Code",ExpressionUUID->"cfdb483a-568f-4a02-96c9-37709daf953d"],
+Cell[9721, 219, 148, 3, 103, "Code",ExpressionUUID->"22c39192-fa14-4f0b-8d6b-fc322fcb5276"],
+Cell[9872, 224, 472, 12, 142, "Code",ExpressionUUID->"d4e7aa88-2743-48ac-9570-699e376f8685"],
+Cell[10347, 238, 647, 17, 142, "Code",ExpressionUUID->"7627473d-4b4e-496f-85fc-b495e06aeced"],
+Cell[10997, 257, 187, 5, 142, "Code",ExpressionUUID->"5f5d33ad-2874-4edb-a217-dc6396320c78"]
+}
+]
+*)
+
